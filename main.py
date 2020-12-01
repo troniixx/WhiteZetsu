@@ -34,7 +34,6 @@ async def help(ctx):
     embed.set_author(name='Help : list of commands available.')
     embed.add_field(name=',ping', value='Returns bot respond time in milliseconds', inline=False)
     embed.add_field(name=',info', value='Random info stuff', inline=False)
-    embed.add_field(name=',youtube', value='trying something', inline=False)
 
     await ctx.send(embed=embed)
 
@@ -57,27 +56,11 @@ async def info(ctx):
 
     await ctx.send(embed=embed)
 
-@bot.command() #Still messing around here
-async def youtube(ctx, *, search):
-    query_string = parse.urlencode({'search_query': search})
-    html_content = request.urlopen('http://www.youtube.com/results?' + query_string)
-    print(html_content.read().decode())
-    search_results = re.findall('href=\"\\/watch\\?v=(.{11})', html_content.read().decode())
-    print(search_results)
-
-    await ctx.send('https://www.youtube.com/watch?v=' + search_results[0])
-
 # Events
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Game(',help for a list of Commands'))
     print('My body is ready')
-
-
-with open("token.txt") as f:
-  token = f.read()
-bot.run(token)
-
 
 #Doing a music bot w/o understanding how discord.py works :monkas:
 
@@ -90,3 +73,40 @@ async def join(ctx):
 async def leave(ctx):
     await ctx.voice_client.disconnect()
 
+#Some dumb shit that works for some reason
+
+@bot.command(aliases=['gayness'])
+async def gay(ctx, *, question):
+    responses = ["LOL YOU GAY XDDD FUNNY",
+                    "HOMO ALERT",
+                    "MY GAY-SENSOR IS OFF THE CHARTS",
+                    "STINKY GAY",
+                    "BIG GEAY",
+                    "THE SOCKS ARE OFF",
+                    "HELLA GAY"
+                    "Possible homo",
+                 "My gay-sensor is picking something up",
+                 "I can't tell if the socks are on or off",
+                 "Gay-ish",
+                 "Looking a bit homo",
+                 "lol half  g a y",
+                 "safely in between for now",
+                 "No homo",
+                 "Wearing socks",
+                 '"Only sometimes"',
+                 "Straight-ish",
+                 "No homo bro",
+                 "Girl-kisser",
+                 "Hella straight"
+                 ]
+    await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+
+
+
+
+
+#Note to myself: DONT FUCKING TOUCH THIS
+
+with open("token.txt") as f:
+  token = f.read()
+bot.run(token)
