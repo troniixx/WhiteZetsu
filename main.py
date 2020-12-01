@@ -2,9 +2,28 @@ import discord
 from discord.ext import commands
 import datetime
 
+import os
+import random
+from dotenv import load_dotenv
+import youtube_dl
+import math
+import random
+import youtube_dl
+from async_timeout import timeout
+
+
+
+# Silence useless bug reports messages
+youtube_dl.utils.bug_reports_message = lambda: ''
+
 from urllib import parse, request
 import re
+from discord.ext.commands import Bot
+from discord.voice_client import VoiceClient
+import asyncio
 
+load_dotenv()
+players={}
 bot = commands.Bot(command_prefix=',', description="Second half of Black Zetsu")
 
 bot.remove_command("help")
@@ -58,3 +77,16 @@ async def on_ready():
 with open("token.txt") as f:
   token = f.read()
 bot.run(token)
+
+
+#Doing a music bot w/o understanding how discord.py works :monkas:
+
+@bot.command(pass_context=True)
+async def join(ctx):
+    author = ctx.message.author
+    channel = author.voice_channel
+    await bot.join_voice_channel(channel)
+@bot.command()
+async def leave(ctx):
+    await ctx.voice_client.disconnect()
+
